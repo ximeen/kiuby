@@ -1,4 +1,4 @@
-import { AppError } from "@shared/errors/app-error";
+import { BaseError } from "@shared/errors/base_error";
 import type { FastifyInstance } from "fastify";
 import { ZodError } from "zod";
 
@@ -11,7 +11,7 @@ export async function errorHandle(app: FastifyInstance) {
       });
     }
 
-    if (error instanceof AppError) {
+    if (error instanceof BaseError) {
       return reply.status(error.statusCode).send({
         message: error.message,
       });
