@@ -8,7 +8,7 @@ interface AddressProps {
   city: string;
   state: string;
   zipCode: string;
-  country: string;
+  country?: string;
 }
 
 export class Address extends ValueObject<AddressProps> {
@@ -70,7 +70,7 @@ export class Address extends ValueObject<AddressProps> {
     return this.props.zipCode;
   }
 
-  get country(): string {
+  get country(): string | undefined {
     return this.props.country;
   }
 

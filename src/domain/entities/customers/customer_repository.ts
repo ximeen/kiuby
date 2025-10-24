@@ -3,7 +3,8 @@ import type { Customer } from "./customer_entity";
 export interface ICustomerRepository {
   save(customer: Customer): Promise<void>;
   findById(id: string): Promise<Customer | null>;
-  findByDocumentId(document: string): Promise<Customer | null>;
+  findByDocument(document: string): Promise<Customer | null>;
+  findByEmail(email: string): Promise<Customer | null>;
   findAll(filters?: CustomerFilters): Promise<Customer[]>;
   update(customer: Customer): Promise<void>;
   delete(id: string): Promise<void>;
