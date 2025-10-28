@@ -1,5 +1,5 @@
 import { Entity } from "@domain/shared/entity";
-import { Address } from "../customers/value_objects/address";
+import type { Address } from "../customers/value_objects/address";
 
 export enum WarehouseType {
   MAIN = "main",
