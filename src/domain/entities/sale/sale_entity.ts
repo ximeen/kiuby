@@ -49,7 +49,7 @@ export class Sale extends Entity<SaleProps> {
       discount?: Discount;
       items?: SaleItem[];
     },
-    id?: string,
+    _id?: string,
   ) {
     return new Sale({
       ...props,

@@ -34,7 +34,7 @@ export class User extends Entity<UserProps> {
     super(props, id);
   }
 
-  static create(props: Omit<UserProps, "status"> & { status?: UserStatus }, id?: string): User {
+  static create(props: Omit<UserProps, "status"> & { status?: UserStatus }, _id?: string): User {
     if (!props.name.trim()) {
       throw new Error("User name is required");
     }

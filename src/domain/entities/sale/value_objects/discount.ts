@@ -40,7 +40,7 @@ export class Discount extends ValueObject<DiscountProps> {
   }
 
   calculateDiscount(amount: number): number {
-    if (this.props.type == DiscountType.PERCENTAGE) {
+    if (this.props.type === DiscountType.PERCENTAGE) {
       return (amount * this.props.value) / 100;
     }
 

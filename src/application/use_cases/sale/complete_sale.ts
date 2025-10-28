@@ -11,7 +11,7 @@ import type {
   IStockRepository,
 } from "@domain/entities/stock/stock_repository";
 import { Quantity } from "@domain/entities/stock/value_objects/quantity";
-import { NotFoundError, ValidationError } from "@shared/errors/domain_error";
+import { NotFoundError } from "@shared/errors/domain_error";
 
 interface CompleteSaleInput {
   saleId: string;

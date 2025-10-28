@@ -34,7 +34,7 @@ export class Warehouse extends Entity<WarehouseProps> {
 
   static create(
     props: Omit<WarehouseProps, "status"> & { status?: WarehouseStatus },
-    id?: string,
+    _id?: string,
   ): Warehouse {
     if (!props.name.trim()) {
       throw new Error("Warehouse name is required");
