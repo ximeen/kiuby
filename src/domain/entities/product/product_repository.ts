@@ -7,7 +7,7 @@ export interface IProductRepository {
   findAll(filters?: ProductFilters): Promise<Product[]>;
   update(product: Product): Promise<void>;
   delete(id: string): Promise<void>;
-  exists(id: string): Promise<void>;
+  exists(id: string): Promise<boolean>;
 }
 
 export interface ProductFilters {

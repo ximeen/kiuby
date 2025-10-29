@@ -23,7 +23,7 @@ interface CustomerProps {
   type: CustomerType;
   status: CustomerStatus;
   address?: Address;
-  birthDate?: Date;
+  birthdate?: Date;
   companyName?: string;
   notes?: string;
   creditLimit?: number;
@@ -101,8 +101,8 @@ export class Customer extends Entity<CustomerProps> {
     return this.props.address;
   }
 
-  get birthDate(): Date | undefined {
-    return this.props.birthDate;
+  get birthdate(): Date | undefined {
+    return this.props.birthdate;
   }
 
   get companyName(): string | undefined {

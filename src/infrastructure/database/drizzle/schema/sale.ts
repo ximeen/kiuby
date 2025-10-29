@@ -44,7 +44,7 @@ export const sales = pgTable("sales", {
   approvedAt: timestamp("approved_at"),
   rejectedBy: uuid("rejected_by"),
   rejectedAt: timestamp("rejected_at"),
-  rejectedReason: text("rejected_reason"),
+  rejectionReason: text("rejection_reason"),
   notes: text("notes"),
 
   createdAt: timestamp("created_at").notNull().defaultNow(),
