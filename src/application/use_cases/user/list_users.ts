@@ -25,8 +25,8 @@ export class ListUsersUseCase {
     return users.map((u) => ({
       id: u.id,
       name: u.name,
-      username: u.username,
-      email: u.email,
+      username: u.username.value,
+      email: u.email.value,
       role: u.role,
       status: u.status,
       lastLoginAt: u.lastLoginAt,
