@@ -1,4 +1,4 @@
-import { IUserRepository } from "@domain/entities/user/user_repository";
+import type { IUserRepository } from "@domain/entities/user/user_repository";
 
 interface ListUsersInput {
   status?: string;

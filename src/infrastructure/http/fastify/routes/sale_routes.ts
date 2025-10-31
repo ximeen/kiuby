@@ -18,4 +18,3 @@ export async function saleRoutes(app: FastifyInstance) {
   app.post("/sales/:id/items", controller.addItem.bind(controller));
   app.delete("/sales/:id/items/:itemId", controller.removeItem.bind(controller));
 }
-

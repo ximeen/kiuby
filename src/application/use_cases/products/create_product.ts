@@ -1,5 +1,5 @@
 import { Product } from "@domain/entities/product/product_entity";
-import { IProductRepository } from "@domain/entities/product/product_repository";
+import type { IProductRepository } from "@domain/entities/product/product_repository";
 import { Money } from "@domain/entities/product/value_objects/money";
 import { ProductName } from "@domain/entities/product/value_objects/product_name";
 import { SKU } from "@domain/entities/product/value_objects/sku";

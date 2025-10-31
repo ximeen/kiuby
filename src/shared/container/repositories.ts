@@ -1,5 +1,12 @@
-import { DrizzleCustomerRepository, DrizzleProductRepository, DrizzleSaleRepository, DrizzleStockMovementRepository, DrizzleStockRepository, DrizzleUserRepository, DrizzleWarehouseRepository } from "@infrastructure/database/repositories";
-
+import {
+  DrizzleCustomerRepository,
+  DrizzleProductRepository,
+  DrizzleSaleRepository,
+  DrizzleStockMovementRepository,
+  DrizzleStockRepository,
+  DrizzleUserRepository,
+  DrizzleWarehouseRepository,
+} from "@infrastructure/database/repositories";
 
 let productRepository: DrizzleProductRepository;
 let customerRepository: DrizzleCustomerRepository;
@@ -9,11 +16,11 @@ let stockRepository: DrizzleStockRepository;
 let stockMovementRepository: DrizzleStockMovementRepository;
 let saleRepository: DrizzleSaleRepository;
 
-export function getProductsRepository():DrizzleProductRepository {
-    if(!productRepository){
-        productRepository = new DrizzleProductRepository()
-    }
-    return productRepository;
+export function getProductsRepository(): DrizzleProductRepository {
+  if (!productRepository) {
+    productRepository = new DrizzleProductRepository();
+  }
+  return productRepository;
 }
 
 export function getCustomerRepository(): DrizzleCustomerRepository {

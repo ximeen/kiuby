@@ -1,4 +1,4 @@
-import { IProductRepository } from "@domain/entities/product/product_repository";
+import type { IProductRepository } from "@domain/entities/product/product_repository";
 import { NotFoundError } from "@shared/errors/domain_error";
 
 export class DeactivateProductUseCase {

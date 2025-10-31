@@ -1,9 +1,16 @@
-import { IWarehouseRepository, WarehouseFilters } from "@domain/entities/warehouses/warehouse_repository";
-import { Warehouse, WarehouseStatus, WarehouseType } from "@domain/entities/warehouses/warehouses_entity";
+import { Address } from "@domain/entities/customers/value_objects/address";
+import type {
+  IWarehouseRepository,
+  WarehouseFilters,
+} from "@domain/entities/warehouses/warehouse_repository";
+import {
+  Warehouse,
+  type WarehouseStatus,
+  type WarehouseType,
+} from "@domain/entities/warehouses/warehouses_entity";
+import { and, eq, ilike, or } from "drizzle-orm";
 import { db } from "../drizzle/client";
 import { warehouses } from "../drizzle/schema";
-import { and, eq, ilike, or } from "drizzle-orm";
-import { Address } from "@domain/entities/customers/value_objects/address";
 
 export class DrizzleWarehouseRepository implements IWarehouseRepository {
   async save(warehouse: Warehouse): Promise<void> {
@@ -39,65 +46,54 @@ export class DrizzleWarehouseRepository implements IWarehouseRepository {
   }
 
   async findByCode(code: string): Promise<Warehouse | null> {
-    const result = await db
-      .select()
-      .from(warehouses)
-      .where(eq(warehouses.code, code))
-      .limit(1);
-    
-    if(result.length === 0) return null;
+    const result = await db.select().from(warehouses).where(eq(warehouses.code, code)).limit(1);
 
-    return this.toDomain(result[0])
-    
+    if (result.length === 0) return null;
+
+    return this.toDomain(result[0]);
   }
 
   async findAll(filters?: WarehouseFilters): Promise<Warehouse[]> {
-    let query = db.select().from(warehouses)
+    let query = db.select().from(warehouses);
 
     const conditions = [];
 
-    if(filters?.status){
-      conditions.push(eq(warehouses.status, filters.status as any))
+    if (filters?.status) {
+      conditions.push(eq(warehouses.status, filters.status as any));
     }
 
-    if(filters?.type){
-      conditions.push(eq(warehouses.type, filters.type as any))
+    if (filters?.type) {
+      conditions.push(eq(warehouses.type, filters.type as any));
     }
 
-    if(filters?.searchTerm){
+    if (filters?.searchTerm) {
       conditions.push(
         or(
           ilike(warehouses.name, `${filters.searchTerm}`),
           ilike(warehouses.code, `${filters.searchTerm}`),
-          ilike(warehouses.city, `${filters.searchTerm}`)
-        )
-      )
+          ilike(warehouses.city, `${filters.searchTerm}`),
+        ),
+      );
     }
 
-    if(conditions.length > 0){
-      query = query.where(and(...conditions)) as any
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions)) as any;
     }
 
     const result = await query;
-    return result.map((row)=> this.toDomain(row))
+    return result.map((row) => this.toDomain(row));
   }
 
   async findActive(): Promise<Warehouse[]> {
-      const result = await db
-        .select()
-        .from(warehouses)
-        .where(eq(warehouses.status, "active"));
+    const result = await db.select().from(warehouses).where(eq(warehouses.status, "active"));
 
-        return result.map((row) => this.toDomain(row))
+    return result.map((row) => this.toDomain(row));
   }
 
   async findByManager(managerId: string): Promise<Warehouse[]> {
-    const result = await db
-      .select()
-      .from(warehouses)
-      .where(eq(warehouses.managerId, managerId));
+    const result = await db.select().from(warehouses).where(eq(warehouses.managerId, managerId));
 
-      return result.map((row)=> this.toDomain(row))
+    return result.map((row) => this.toDomain(row));
   }
 
   async update(warehouse: Warehouse): Promise<void> {
@@ -122,26 +118,20 @@ export class DrizzleWarehouseRepository implements IWarehouseRepository {
         notes: warehouse.notes,
         updatedAt: new Date(),
       })
-      .where(eq(warehouses.id, warehouse.id))
+      .where(eq(warehouses.id, warehouse.id));
   }
 
   async delete(id: string): Promise<void> {
-    await db
-      .delete(warehouses)
-      .where(eq(warehouses.id, id))
+    await db.delete(warehouses).where(eq(warehouses.id, id));
   }
 
   async exists(id: string): Promise<boolean> {
-    const result = await db
-      .select()
-      .from(warehouses)
-      .where(eq(warehouses.id, id))
-      .limit(1)
+    const result = await db.select().from(warehouses).where(eq(warehouses.id, id)).limit(1);
 
-      return result.length > 0;
+    return result.length > 0;
   }
 
-private toDomain(row: any): Warehouse {
+  private toDomain(row: any): Warehouse {
     const address =
       row.street && row.number
         ? Address.create({
@@ -169,7 +159,7 @@ private toDomain(row: any): Warehouse {
         address,
         notes: row.notes,
       },
-      row.id
+      row.id,
     );
   }
 }

@@ -13,7 +13,7 @@ interface StockProps {
   quantity: Quantity;
   reservedQuantity: Quantity;
   status: StockStatus;
-  lastMovementAt: Date;
+  lastMovementAt?: Date;
 }
 
 export class Stock extends Entity<StockProps> {
