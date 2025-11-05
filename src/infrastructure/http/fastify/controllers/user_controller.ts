@@ -70,7 +70,11 @@ export class UserController {
   }
 
   async list(request: FastifyRequest, reply: FastifyReply) {
-    const { status, role, searchTerm } = request.query as any;
+    const { status, role, searchTerm } = request.query as {
+      status?: string;
+      role?: string;
+      searchTerm?: string;
+    };
     const useCase = new ListUsersUseCase(getUserRepository());
     const result = await useCase.execute({ status, role, searchTerm });
     return reply.status(HTTP_STATUS.OK).send(result);

@@ -19,7 +19,7 @@ import {
   getStockRepository,
 } from "@shared/container/repositories";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { array, enum as enum_, httpUrl, number, object, string, uuid } from "zod";
+import { array, enum as enum_, number, object, string, uuid } from "zod";
 
 const createSaleItemSchema = object({
   productId: uuid(),
@@ -95,7 +95,14 @@ export class SaleContoller {
   }
 
   async list(request: FastifyRequest, reply: FastifyReply) {
-    const { status, startDate, endDate, createdBy, minTotal, maxTotal } = request.query as any;
+    const { status, startDate, endDate, createdBy, minTotal, maxTotal } = request.query as {
+      status?: string;
+      startDate?: string;
+      endDate?: string;
+      createdBy?: string;
+      minTotal?: string;
+      maxTotal?: string;
+    };
 
     const useCase = new ListSalesUseCase(getSaleRepository());
     const result = await useCase.execute({

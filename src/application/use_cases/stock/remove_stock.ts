@@ -17,8 +17,8 @@ interface RemoveStockInput {
   userId: string;
   reason: MovementReason;
   notes?: string;
-  referenceId: string;
-  referenceType: string;
+  referenceId?: string;
+  referenceType?: string;
 }
 
 export class RemoveStockUseCase {

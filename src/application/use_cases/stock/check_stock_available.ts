@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/complexity/useOptionalChain: <explanation> */
 import type { IStockRepository } from "@domain/entities/stock/stock_repository";
 import { Quantity } from "@domain/entities/stock/value_objects/quantity";
 
@@ -26,7 +27,7 @@ export class CheckStockAvailabilityUseCase {
   async execute(input: CheckStockInput): Promise<StockAvailability> {
     const required = Quantity.create(input.requiredQuantity);
 
-    let stocks = input.warehouseId
+    const stocks = input.warehouseId
       ? [await this.stockRepo.findByProductAndWarehouse(input.productId, input.warehouseId)]
       : await this.stockRepo.findByProduct(input.productId);
 

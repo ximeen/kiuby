@@ -13,7 +13,7 @@ interface CreateCustomerInput {
   document?: string;
   type: CustomerType;
   companyName?: string;
-  birthDate?: Date;
+  birthdate?: Date;
   creditLimit?: number;
   notes?: string;
   address?: {
@@ -69,7 +69,7 @@ export class CreateCustomerUseCase {
       document,
       type: input.type,
       companyName: input.companyName,
-      birthDate: input.birthDate,
+      birthdate: input.birthdate,
       creditLimit: input.creditLimit,
       notes: input.notes,
       address,
