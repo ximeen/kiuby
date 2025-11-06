@@ -16,6 +16,7 @@
     "build": "tsup src/main.ts --format esm",
     "start": "node dist/main.js",
     "test": "vitest",
+    "seed:products": "tsx src/infrastructure/database/product_table_seed.ts",
     "test:ui": "vitest --ui",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.2.6",
+    "@faker-js/faker": "^10.1.0",
     "@types/node": "^24.9.0",
     "drizzle-kit": "^0.31.5",
     "tsup": "^8.5.0",

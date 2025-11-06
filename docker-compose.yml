@@ -1,13 +1,13 @@
 services:
   db:
     image: bitnami/postgresql
-    container_name: backend_boilerplate_db 
+    container_name: backend_kiuby
     ports:
       - '${DB_PORT:-5432}:5432'
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-backend_boilerplate}
+      POSTGRES_DB: ${DB_NAME:-kiuby_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
@@ -21,7 +21,7 @@ services:
     
   redis:
     image: bitnami/redis
-    container_name: backend_boilerplate_redis
+    container_name: backend_kiuby_redis
     restart: unless-stopped
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redis123}
     ports:

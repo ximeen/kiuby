@@ -8,8 +8,11 @@ interface ProductListItem {
   name: string;
   sku: string;
   price: number;
+  costPrice?: number;
   status: string;
   unit: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class ListProductsUseCase {
@@ -20,11 +23,14 @@ export class ListProductsUseCase {
 
     return products.map((p) => ({
       id: p.id,
-      name: p.name,
-      sku: p.sku,
-      price: p.sku,
+      name: p.name.value,
+      sku: p.sku.value,
+      price: p.price.amount,
+      costPrice: p.costPrice?.amount,
       status: p.status,
       unit: p.unit,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
     }));
   }
 }
