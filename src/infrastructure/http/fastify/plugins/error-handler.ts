@@ -1,13 +1,13 @@
 import { BaseError } from "@shared/errors/base_error";
 import type { FastifyInstance } from "fastify";
-import { ZodError } from "zod";
+import z, { ZodError } from "zod";
 
 export async function errorHandle(app: FastifyInstance) {
   app.setErrorHandler((error, _request, reply) => {
     if (error instanceof ZodError) {
       return reply.status(400).send({
         message: "Erro de validação",
-        errors: error.flatten().fieldErrors,
+        errors: z.treeifyError(error),
       });
     }
 
