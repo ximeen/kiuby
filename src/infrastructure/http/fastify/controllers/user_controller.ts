@@ -13,7 +13,7 @@ import { getUserRepository } from "@shared/container/repositories";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { email, enum as enum_, object, string } from "zod";
 
-const createUserSchema = object({
+export const createUserSchema = object({
   name: string().min(3),
   username: string().min(3),
   email: email(),
@@ -22,23 +22,23 @@ const createUserSchema = object({
   phone: string().optional(),
 });
 
-const authenticateUserSchema = object({
+export const authenticateUserSchema = object({
   username: string(),
   password: string(),
 });
 
-const updateUserSchema = object({
+export const updateUserSchema = object({
   name: string().min(3).optional(),
   email: email().optional(),
   phone: string().optional(),
 });
 
-const changePasswordSchema = object({
+export const changePasswordSchema = object({
   currentPassword: string(),
   newPassword: string().min(6),
 });
 
-const changeRoleSchema = object({
+export const changeRoleSchema = object({
   role: enum_(["admin", "manager", "salesperson", "stock_manager", "viewer"]),
 });
 

@@ -1,4 +1,5 @@
 import { UnauthorizedError } from "@shared/errors/domain_error";
+import { verifyToken } from "@shared/utils/jwt";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 interface JWTPayload {
@@ -15,7 +16,6 @@ declare module "fastify" {
 }
 
 const AUTH_SCHEME = "Bearer";
-const TOKEN_ENCODING = "base64";
 
 export async function authMiddleware(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
   try {
@@ -26,7 +26,7 @@ export async function authMiddleware(request: FastifyRequest, _reply: FastifyRep
     }
 
     const token = extractBearerToken(authHeader);
-    const payload = parseSimulatedToken(token);
+    const payload = parseJWTToken(token);
     request.user = payload;
   } catch {
     throw new UnauthorizedError("Invalid or expired token");
@@ -51,10 +51,9 @@ function extractBearerToken(authHeader: string): string {
   return token;
 }
 
-function parseSimulatedToken(token: string): JWTPayload {
+function parseJWTToken(token: string): JWTPayload {
   try {
-    const decoded = Buffer.from(token, TOKEN_ENCODING).toString("utf-8");
-    const payload = JSON.parse(decoded) as JWTPayload;
+    const payload = verifyToken(token);
     validatePayload(payload);
 
     return payload;

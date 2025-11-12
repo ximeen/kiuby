@@ -261,9 +261,7 @@
         "products_sku_unique": {
           "name": "products_sku_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "sku"
-          ]
+          "columns": ["sku"]
         }
       },
       "policies": {},
@@ -365,12 +363,8 @@
           "name": "sale_items_sale_id_sales_id_fk",
           "tableFrom": "sale_items",
           "tableTo": "sales",
-          "columnsFrom": [
-            "sale_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["sale_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -378,12 +372,8 @@
           "name": "sale_items_product_id_products_id_fk",
           "tableFrom": "sale_items",
           "tableTo": "products",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -528,12 +518,8 @@
           "name": "sales_customer_id_customers_id_fk",
           "tableFrom": "sales",
           "tableTo": "customers",
-          "columnsFrom": [
-            "customer_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["customer_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -644,12 +630,8 @@
           "name": "stock_movements_product_id_products_id_fk",
           "tableFrom": "stock_movements",
           "tableTo": "products",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -657,12 +639,8 @@
           "name": "stock_movements_stock_id_stocks_id_fk",
           "tableFrom": "stock_movements",
           "tableTo": "stocks",
-          "columnsFrom": [
-            "stock_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["stock_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -745,12 +723,8 @@
           "name": "stocks_product_id_products_id_fk",
           "tableFrom": "stocks",
           "tableTo": "products",
-          "columnsFrom": [
-            "product_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["product_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -845,16 +819,12 @@
         "users_username_unique": {
           "name": "users_username_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "username"
-          ]
+          "columns": ["username"]
         },
         "users_email_unique": {
           "name": "users_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -1000,9 +970,7 @@
         "warehouses_code_unique": {
           "name": "warehouses_code_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "code"
-          ]
+          "columns": ["code"]
         }
       },
       "policies": {},
@@ -1014,69 +982,37 @@
     "public.customer_status": {
       "name": "customer_status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "blocked"
-      ]
+      "values": ["active", "inactive", "blocked"]
     },
     "public.customer_type": {
       "name": "customer_type",
       "schema": "public",
-      "values": [
-        "individual",
-        "company"
-      ]
+      "values": ["individual", "company"]
     },
     "public.document_type": {
       "name": "document_type",
       "schema": "public",
-      "values": [
-        "cpf",
-        "cnpj"
-      ]
+      "values": ["cpf", "cnpj"]
     },
     "public.product_status": {
       "name": "product_status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "discontinued"
-      ]
+      "values": ["active", "inactive", "discontinued"]
     },
     "public.discount_type": {
       "name": "discount_type",
       "schema": "public",
-      "values": [
-        "percentage",
-        "fixed"
-      ]
+      "values": ["percentage", "fixed"]
     },
     "public.payment_method": {
       "name": "payment_method",
       "schema": "public",
-      "values": [
-        "cash",
-        "credit_card",
-        "debit_card",
-        "pix",
-        "bank_slip",
-        "credit"
-      ]
+      "values": ["cash", "credit_card", "debit_card", "pix", "bank_slip", "credit"]
     },
     "public.sale_status": {
       "name": "sale_status",
       "schema": "public",
-      "values": [
-        "draft",
-        "pending",
-        "approved",
-        "rejected",
-        "processing",
-        "completed",
-        "cancelled"
-      ]
+      "values": ["draft", "pending", "approved", "rejected", "processing", "completed", "cancelled"]
     },
     "public.movement_reason": {
       "name": "movement_reason",
@@ -1096,62 +1032,32 @@
     "public.movement_type": {
       "name": "movement_type",
       "schema": "public",
-      "values": [
-        "entry",
-        "exit",
-        "adjustment",
-        "transfer",
-        "return",
-        "loss"
-      ]
+      "values": ["entry", "exit", "adjustment", "transfer", "return", "loss"]
     },
     "public.stock_status": {
       "name": "stock_status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "blocked"
-      ]
+      "values": ["active", "inactive", "blocked"]
     },
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
-      "values": [
-        "admin",
-        "manager",
-        "salesperson",
-        "stock_manager",
-        "viewer"
-      ]
+      "values": ["admin", "manager", "salesperson", "stock_manager", "viewer"]
     },
     "public.user_status": {
       "name": "user_status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "blocked"
-      ]
+      "values": ["active", "inactive", "blocked"]
     },
     "public.warehouse_status": {
       "name": "warehouse_status",
       "schema": "public",
-      "values": [
-        "active",
-        "inactive",
-        "maintenance"
-      ]
+      "values": ["active", "inactive", "maintenance"]
     },
     "public.warehouse_type": {
       "name": "warehouse_type",
       "schema": "public",
-      "values": [
-        "main",
-        "branch",
-        "store",
-        "distribution"
-      ]
+      "values": ["main", "branch", "store", "distribution"]
     }
   },
   "schemas": {},

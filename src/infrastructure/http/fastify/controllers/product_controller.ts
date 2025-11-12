@@ -5,9 +5,9 @@ import { UpdateProductUseCase } from "@application/use_cases/products/update_pro
 import { HTTP_STATUS } from "@shared/constants";
 import { getProductsRepository } from "@shared/container/repositories";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { number, object, string, uuid } from "zod";
+import z, { coerce, number, object, string, uuid } from "zod";
 
-const createProductSchema = object({
+export const createProductSchema = object({
   name: string().min(3),
   description: string().optional(),
   sku: string().min(3),
@@ -19,7 +19,16 @@ const createProductSchema = object({
   unit: string().default("UN"),
 });
 
-const updateProductSchema = object({
+export const listQueryParamsSchema = object({
+  status: string().optional(),
+  categoryId: string().optional(),
+  searchTerm: string().optional(),
+  minPrice: coerce.number().positive().optional(),
+  maxPrice: coerce.number().positive().optional(),
+});
+type ListProductQuery = z.infer<typeof listQueryParamsSchema>;
+
+export const updateProductSchema = object({
   name: string().min(3).optional(),
   description: string().optional(),
   price: number().positive().optional(),
@@ -46,20 +55,15 @@ export class ProductController {
   }
 
   async list(request: FastifyRequest, reply: FastifyReply) {
-    const { status, categoryId, searchTerm, minPrice, maxPrice } = request.query as {
-      status?: string;
-      categoryId?: string;
-      searchTerm?: string;
-      minPrice?: string;
-      maxPrice?: string;
-    };
+    const { status, categoryId, searchTerm, minPrice, maxPrice } =
+      request.query as ListProductQuery;
     const useCase = new ListProductsUseCase(getProductsRepository());
     const result = await useCase.execute({
       status,
       categoryId,
       searchTerm,
-      maxPrice: maxPrice ? parseFloat(maxPrice) : undefined,
-      minPrice: minPrice ? parseFloat(minPrice) : undefined,
+      maxPrice,
+      minPrice,
     });
 
     return reply.status(HTTP_STATUS.OK).send(result);

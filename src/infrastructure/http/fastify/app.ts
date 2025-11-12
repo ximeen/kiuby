@@ -1,20 +1,20 @@
 import { fastifyCors } from "@fastify/cors";
 import helmet from "@fastify/helmet";
-import {
-  serializerCompiler,
-  validatorCompiler,
-  jsonSchemaTransform,
-  type ZodTypeProvider,
-} from "fastify-type-provider-zod";
-import fastify from "fastify";
 import { fastifySwagger } from "@fastify/swagger";
 import ScalarApiReference from "@scalar/fastify-api-reference";
+import fastify from "fastify";
+import {
+  jsonSchemaTransform,
+  serializerCompiler,
+  validatorCompiler,
+  type ZodTypeProvider,
+} from "fastify-type-provider-zod";
 import { errorHandle } from "./plugins/error-handler";
-import { userRoutes } from "./routes/user_routes";
 import { customerRoutes } from "./routes/customer_routes";
 import { productRoutes } from "./routes/product_routes";
 import { saleRoutes } from "./routes/sale_routes";
 import { stockRoutes } from "./routes/stock_routes";
+import { userRoutes } from "./routes/user_routes";
 import { warehousesRoutes } from "./routes/warehouses_routes";
 
 export async function buildApp() {
