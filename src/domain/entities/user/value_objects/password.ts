@@ -1,11 +1,12 @@
 import { ValueObject } from "@domain/shared/value_object";
+import bcrypt from "bcrypt";
 
 export class Password extends ValueObject<{ hash: string }> {
   private constructor(hash: string) {
     super({ hash });
   }
 
-  static create(plainPassword: string): Password {
+  static async create(plainPassword: string): Promise<Password> {
     if (!plainPassword) {
       throw new Error("Password cannot be empty");
     }
@@ -16,7 +17,7 @@ export class Password extends ValueObject<{ hash: string }> {
       throw new Error("Password cannot exceed 100 characters");
     }
 
-    const hash = `hased_${plainPassword}`;
+    const hash = await bcrypt.hash(plainPassword, 10);
     return new Password(hash);
   }
 
@@ -28,7 +29,7 @@ export class Password extends ValueObject<{ hash: string }> {
     return this.props.hash;
   }
 
-  verify(plainPassword: string): boolean {
-    return this.props.hash === `hashed_${plainPassword}`;
+  async verify(plainPassword: string): Promise<boolean> {
+    return await bcrypt.compare(plainPassword, this.props.hash);
   }
 }

@@ -7,6 +7,7 @@
     "@fastify/helmet": "^13.0.2",
     "@fastify/swagger": "^9.5.2",
     "@scalar/fastify-api-reference": "^1.39.2",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.6",
     "fastify": "^5.6.1",
@@ -21,6 +22,7 @@
     "start": "node dist/main.js",
     "test": "vitest",
     "seed:products": "tsx src/infrastructure/database/product_table_seed.ts",
+    "seed:user": "tsx src/infrastructure/database/seeds/create_user.ts",
     "test:ui": "vitest --ui",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
@@ -32,6 +34,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.2.6",
     "@faker-js/faker": "^10.1.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.9.0",
     "drizzle-kit": "^0.31.5",

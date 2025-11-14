@@ -197,8 +197,8 @@ export class User extends Entity<UserProps> {
     this.props.role = newRole;
     this.touch();
   }
-  verifyPassword(plainPassword: string): boolean {
-    return this.props.password.verify(plainPassword);
+  async verifyPassword(plainPassword: string): Promise<boolean> {
+    return await this.props.password.verify(plainPassword);
   }
   recordLogin(): void {
     this.props.lastLoginAt = new Date();

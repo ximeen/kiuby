@@ -34,7 +34,7 @@ export class CreateUserUseCase {
       name: input.name,
       username: Username.create(input.username),
       email: Email.create(input.email),
-      password: Password.create(input.password),
+      password: await Password.create(input.password),
       role: input.role,
       phone: input.phone,
     });

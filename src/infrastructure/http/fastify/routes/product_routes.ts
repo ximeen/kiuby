@@ -6,6 +6,7 @@ import {
   updateProductSchema,
 } from "../controllers/product_controller";
 import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
+import { authMiddleware } from "../middlewares/auth_middleware";
 
 export const productRoutes: FastifyPluginAsyncZod = async (app: FastifyInstance) => {
   const controller = new ProductController();
@@ -27,6 +28,7 @@ export const productRoutes: FastifyPluginAsyncZod = async (app: FastifyInstance)
         tags: ["PRODUCTS"],
         querystring: listQueryParamsSchema,
       },
+      preHandler: [authMiddleware],
     },
     controller.list.bind(controller),
   );

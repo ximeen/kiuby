@@ -1,6 +1,7 @@
 import type { Permission } from "@domain/entities/user/permissions";
 import type { IUserRepository } from "@domain/entities/user/user_repository";
 import { UnauthorizedError } from "@shared/errors/domain_error";
+import { generateToken } from "@shared/utils/jwt";
 
 interface AuthenticateInput {
   username: string;
@@ -8,12 +9,15 @@ interface AuthenticateInput {
 }
 
 interface AuthenticateOutput {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  role: string;
-  permissions: Permission[];
+  token: string;
+  user: {
+    id: string;
+    name: string;
+    username: string;
+    email: string;
+    role: string;
+    permissions: Permission[];
+  };
 }
 
 export class AuthenticateUserUseCase {
@@ -34,7 +38,7 @@ export class AuthenticateUserUseCase {
       throw new UnauthorizedError("User is blocked");
     }
 
-    if (!user.verifyPassword(input.password)) {
+    if (!(await user.verifyPassword(input.password))) {
       throw new UnauthorizedError("Invalid credentials");
     }
 
@@ -42,13 +46,24 @@ export class AuthenticateUserUseCase {
 
     await this.userRepo.update(user);
 
-    return {
-      id: user.id,
-      name: user.name,
+    const permissions = user.getPermissions();
+    const token = generateToken({
+      userId: user.id,
       username: user.username.value,
-      email: user.email.value,
       role: user.role,
-      permissions: user.getPermissions(),
+      permissions,
+    });
+
+    return {
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        username: user.username.value,
+        email: user.email.value,
+        role: user.role,
+        permissions,
+      },
     };
   }
 }
