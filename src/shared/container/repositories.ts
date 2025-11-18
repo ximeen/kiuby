@@ -7,6 +7,7 @@ import {
   DrizzleUserRepository,
   DrizzleWarehouseRepository,
 } from "@infrastructure/database/repositories";
+import { DrizzleRefreshTokenRepository } from "@infrastructure/database/repositories/refresh_token_repository";
 
 let productRepository: DrizzleProductRepository;
 let customerRepository: DrizzleCustomerRepository;
@@ -15,6 +16,7 @@ let userRepository: DrizzleUserRepository;
 let stockRepository: DrizzleStockRepository;
 let stockMovementRepository: DrizzleStockMovementRepository;
 let saleRepository: DrizzleSaleRepository;
+let refreshTokenRepository: DrizzleRefreshTokenRepository;
 
 export function getProductsRepository(): DrizzleProductRepository {
   if (!productRepository) {
@@ -63,4 +65,12 @@ export function getSaleRepository(): DrizzleSaleRepository {
     saleRepository = new DrizzleSaleRepository();
   }
   return saleRepository;
+}
+
+export function getRefreshTokenRepository(): DrizzleRefreshTokenRepository {
+  if (!refreshTokenRepository) {
+    refreshTokenRepository = new DrizzleRefreshTokenRepository();
+  }
+
+  return refreshTokenRepository;
 }

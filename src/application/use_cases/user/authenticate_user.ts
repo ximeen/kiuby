@@ -1,15 +1,21 @@
+import { RefreshToken } from "@domain/entities/auth/refresh_token_entity";
+import type { IRefreshTokenRepository } from "@domain/entities/auth/refresh_token_repository";
 import type { Permission } from "@domain/entities/user/permissions";
 import type { IUserRepository } from "@domain/entities/user/user_repository";
 import { UnauthorizedError } from "@shared/errors/domain_error";
-import { generateToken } from "@shared/utils/jwt";
+import { generateRefreshToken, generateToken, getRefreshTokenExpiration } from "@shared/utils/jwt";
 
 interface AuthenticateInput {
   username: string;
   password: string;
+  deviceInfo?: string;
+  ipAddress?: string;
 }
 
 interface AuthenticateOutput {
-  token: string;
+  accessToken: string;
+  refreshToken: string;
+  expireIn: number;
   user: {
     id: string;
     name: string;
@@ -21,7 +27,10 @@ interface AuthenticateOutput {
 }
 
 export class AuthenticateUserUseCase {
-  constructor(private userRepo: IUserRepository) {}
+  constructor(
+    private userRepo: IUserRepository,
+    private refreshTokenRepo: IRefreshTokenRepository,
+  ) {}
 
   async execute(input: AuthenticateInput): Promise<AuthenticateOutput> {
     const user = await this.userRepo.findByUsername(input.username);
@@ -47,15 +56,28 @@ export class AuthenticateUserUseCase {
     await this.userRepo.update(user);
 
     const permissions = user.getPermissions();
-    const token = generateToken({
+    const accessToken = generateToken({
       userId: user.id,
       username: user.username.value,
       role: user.role,
       permissions,
     });
 
+    const refreshTokenValue = generateRefreshToken();
+    const refreshToken = RefreshToken.create({
+      token: refreshTokenValue,
+      userId: user.id,
+      expiresAt: getRefreshTokenExpiration(),
+      deviceInfo: input.deviceInfo,
+      ipAddress: input.ipAddress,
+    });
+
+    await this.refreshTokenRepo.save(refreshToken);
+
     return {
-      token,
+      accessToken,
+      refreshToken: refreshTokenValue,
+      expireIn: 900,
       user: {
         id: user.id,
         name: user.name,
