@@ -14,7 +14,7 @@ interface CreateUserInput {
   phone?: string;
 }
 
-interface CreateUserOutput {
+export interface CreateUserOutput {
   id: string;
   username: string;
   email: string;

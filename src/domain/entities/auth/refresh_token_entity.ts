@@ -39,8 +39,8 @@ export class RefreshToken extends Entity<RefreshTokenProps> {
       id,
     );
   }
-  
- get token(): string {
+
+  get token(): string {
     return this.props.token;
   }
 
@@ -76,5 +76,4 @@ export class RefreshToken extends Entity<RefreshTokenProps> {
     this.props.isRevoked = true;
     this.touch();
   }
-}
 }

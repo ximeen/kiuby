@@ -6,7 +6,7 @@ interface ListUsersInput {
   searchTerm?: string;
 }
 
-interface ListUserOutput {
+export interface ListUserOutput {
   id: string;
   name: string;
   username: string;

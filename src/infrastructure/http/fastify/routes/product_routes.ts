@@ -1,11 +1,11 @@
 import type { FastifyInstance } from "fastify";
+import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import {
   createProductSchema,
   listQueryParamsSchema,
   ProductController,
   updateProductSchema,
 } from "../controllers/product_controller";
-import type { FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import { authMiddleware } from "../middlewares/auth_middleware";
 
 export const productRoutes: FastifyPluginAsyncZod = async (app: FastifyInstance) => {

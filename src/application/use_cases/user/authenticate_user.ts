@@ -12,7 +12,7 @@ interface AuthenticateInput {
   ipAddress?: string;
 }
 
-interface AuthenticateOutput {
+export interface AuthenticateOutput {
   accessToken: string;
   refreshToken: string;
   expireIn: number;

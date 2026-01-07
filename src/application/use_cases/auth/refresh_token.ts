@@ -7,7 +7,7 @@ interface RefreshTokenInput {
   refreshToken: string;
 }
 
-interface RefreshTokenOutput {
+export interface RefreshTokenOutput {
   accessToken: string;
   expireIn: number;
 }

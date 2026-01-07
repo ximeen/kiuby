@@ -5,7 +5,8 @@ import { UpdateProductUseCase } from "@application/use_cases/products/update_pro
 import { HTTP_STATUS } from "@shared/constants";
 import { getProductsRepository } from "@shared/container/repositories";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import z, { coerce, number, object, string, uuid } from "zod";
+import type z from "zod";
+import { coerce, number, object, string, uuid } from "zod";
 
 export const createProductSchema = object({
   name: string().min(3),

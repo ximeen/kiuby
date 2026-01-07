@@ -121,7 +121,6 @@ export class Customer extends Entity<CustomerProps> {
     return this.props.currentDebt ?? 0;
   }
 
-  // Métodos de negócio
   isIndividual(): boolean {
     return this.props.type === CustomerType.INDIVIDUAL;
   }

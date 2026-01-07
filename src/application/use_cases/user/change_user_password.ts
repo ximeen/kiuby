@@ -20,7 +20,7 @@ export class ChangeUserPasswordUseCase {
     if (!user.verifyPassword(input.currentPassword)) {
       throw new UnauthorizedError("Current password is incorrect");
     }
-    const newPassword = Password.create(input.newPassword);
+    const newPassword = await Password.create(input.newPassword);
     user.updatePassword(newPassword);
 
     await this.userRepo.update(user);

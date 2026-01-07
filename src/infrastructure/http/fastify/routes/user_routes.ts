@@ -1,6 +1,22 @@
+import { Permission } from "@domain/entities/user/permissions";
+import {
+  AuthenticateOutputSchema,
+  RefreshTokenOutputSchema,
+} from "@shared/validators/zod/auth_validators";
+import {
+  CreateUserOutputZodSchema,
+  GetUserOutputZodSchema,
+  ListUserOutputZodSchema,
+  QueryParamsListUserZodSchema,
+} from "@shared/validators/zod/user_validators";
 import type { FastifyInstance } from "fastify";
 import {
-  authenticateUserSchema,
+  AuthController,
+  loginSchema,
+  logoutSchema,
+  refreshSchema,
+} from "../controllers/auth_controller";
+import {
   changePasswordSchema,
   changeRoleSchema,
   createUserSchema,
@@ -9,29 +25,63 @@ import {
 } from "../controllers/user_controller";
 import { authMiddleware } from "../middlewares/auth_middleware";
 import { requiredPermission } from "../middlewares/permissions_middleware";
-import { Permission } from "@domain/entities/user/permissions";
 
 export async function userRoutes(app: FastifyInstance) {
   const controller = new UserController();
+  const auth = new AuthController();
 
   app.post(
     "/auth/login",
     {
       schema: {
-        tags: ["USER"],
-        body: authenticateUserSchema,
+        tags: ["AUTH"],
+        description: "Rota para realizar o login do user",
+        body: loginSchema,
+        response: {
+          200: AuthenticateOutputSchema,
+        },
       },
     },
-    controller.authenticate.bind(controller),
+    auth.login.bind(auth),
   );
 
   app.post(
-    "/users",
+    "/auth/refresh",
+    {
+      schema: {
+        tags: ["AUTH"],
+        description: "Rota para pegar o novo accessToken do user",
+        body: refreshSchema,
+        response: {
+          200: RefreshTokenOutputSchema,
+        },
+      },
+    },
+    auth.refresh.bind(auth),
+  );
+
+  app.post(
+    "/auth/logout",
+    {
+      schema: {
+        tags: ["AUTH"],
+        description: "Rota para realizar o logout do user",
+        body: logoutSchema,
+      },
+    },
+    auth.logout.bind(auth),
+  );
+
+  app.post(
+    "/user",
     {
       schema: {
         tags: ["USER"],
-        description: "Rota para cadastrar usuários",
+        description: "Rota para cadastrar usuário",
         body: createUserSchema,
+        response: {
+          200: CreateUserOutputZodSchema,
+        },
       },
       preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
@@ -42,7 +92,13 @@ export async function userRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ["USER"],
+        description: "Rota que lista os users",
+        querystring: QueryParamsListUserZodSchema,
+        response: {
+          200: ListUserOutputZodSchema,
+        },
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.list.bind(controller),
   );
@@ -51,7 +107,12 @@ export async function userRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ["USER"],
+        description: "Rota que busca um user por id",
+        response: {
+          200: GetUserOutputZodSchema,
+        },
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.get.bind(controller),
   );
@@ -60,8 +121,10 @@ export async function userRoutes(app: FastifyInstance) {
     {
       schema: {
         tags: ["USER"],
+        description: "Rota para atualizar users",
         body: updateUserSchema,
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.update.bind(controller),
   );
@@ -73,6 +136,7 @@ export async function userRoutes(app: FastifyInstance) {
         tags: ["USER"],
         body: changePasswordSchema,
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.changePassword.bind(controller),
   );
@@ -84,6 +148,7 @@ export async function userRoutes(app: FastifyInstance) {
         tags: ["USER"],
         body: changeRoleSchema,
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.changeRole.bind(controller),
   );
@@ -93,6 +158,7 @@ export async function userRoutes(app: FastifyInstance) {
       schema: {
         tags: ["USER"],
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.block.bind(controller),
   );
@@ -102,6 +168,7 @@ export async function userRoutes(app: FastifyInstance) {
       schema: {
         tags: ["USER"],
       },
+      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.activate.bind(controller),
   );

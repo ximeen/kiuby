@@ -2,7 +2,7 @@ import type { Permission } from "@domain/entities/user/permissions";
 import type { IUserRepository } from "@domain/entities/user/user_repository";
 import { NotFoundError } from "@shared/errors/domain_error";
 
-interface GetUserOutput {
+export interface GetUserOutput {
   id: string;
   name: string;
   username: string;

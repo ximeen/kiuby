@@ -9,7 +9,7 @@ import { ListUsersUseCase } from "@application/use_cases/user/list_users";
 import { UpdateUserUseCase } from "@application/use_cases/user/update_user";
 import type { UserRole } from "@domain/entities/user/user_entity";
 import { HTTP_STATUS } from "@shared/constants";
-import { getUserRepository } from "@shared/container/repositories";
+import { getRefreshTokenRepository, getUserRepository } from "@shared/container/repositories";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { email, enum as enum_, object, string } from "zod";
 
@@ -57,7 +57,7 @@ export class UserController {
 
   async authenticate(request: FastifyRequest, reply: FastifyReply) {
     const data = authenticateUserSchema.parse(request.body);
-    const useCase = new AuthenticateUserUseCase(getUserRepository());
+    const useCase = new AuthenticateUserUseCase(getUserRepository(), getRefreshTokenRepository());
     const result = await useCase.execute(data);
     return reply.status(HTTP_STATUS.OK).send(result);
   }

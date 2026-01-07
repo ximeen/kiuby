@@ -9,6 +9,7 @@ import {
   validatorCompiler,
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
+import z from "zod";
 import { errorHandle } from "./plugins/error-handler";
 import { customerRoutes } from "./routes/customer_routes";
 import { productRoutes } from "./routes/product_routes";
@@ -56,7 +57,22 @@ export async function buildApp() {
   });
   await app.register(errorHandle);
 
-  app.get("/health", async () => ({ status: "OK", timestamp: new Date().toISOString() }));
+  app.get(
+    "/health",
+    {
+      schema: {
+        tags: ["HEALTH"],
+        description: "Verificar o status da API",
+        response: {
+          200: z.object({
+            status: z.literal("OK"),
+            timestamp: z.string(),
+          }),
+        },
+      },
+    },
+    async () => ({ status: "OK" as const, timestamp: new Date().toISOString() }),
+  );
 
   await app.register(userRoutes);
   await app.register(customerRoutes);

@@ -9,7 +9,7 @@ export class ProductName extends ValueObject<{ value: string }> {
     const trimmed = value.trim();
 
     if (!trimmed) {
-      throw new Error("Product name cannot be empy");
+      throw new Error("Product name cannot be empty");
     }
 
     if (trimmed.length < 3) {
