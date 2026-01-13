@@ -83,7 +83,6 @@ export async function userRoutes(app: FastifyInstance) {
           200: CreateUserOutputZodSchema,
         },
       },
-      preHandler: [authMiddleware, requiredPermission([Permission.MANAGE_USERS])],
     },
     controller.create.bind(controller),
   );

@@ -6,15 +6,20 @@ import { eq, lt } from "drizzle-orm";
 
 export class DrizzleRefreshTokenRepository implements IRefreshTokenRepository {
   async save(refreshToken: RefreshToken): Promise<void> {
-    await db.insert(refreshTokens).values({
-      id: refreshToken.id,
-      token: refreshToken.token,
-      userId: refreshToken.userId,
-      expiresAt: refreshToken.expiresAt,
-      isRevoked: refreshToken.isRevoked,
-      deviceInfo: refreshToken.deviceInfo,
-      ipAddress: refreshToken.ipAddress,
-    });
+    try {
+      await db.insert(refreshTokens).values({
+        id: refreshToken.id,
+        token: refreshToken.token,
+        userId: refreshToken.userId,
+        expiresAt: refreshToken.expiresAt,
+        isRevoked: refreshToken.isRevoked,
+        deviceInfo: refreshToken.deviceInfo,
+        ipAddress: refreshToken.ipAddress,
+      });
+    } catch (error) {
+      console.error("❌ Erro completo ao salvar refresh token:", error);
+      throw error;
+    }
   }
 
   async findByToken(token: string): Promise<RefreshToken | null> {

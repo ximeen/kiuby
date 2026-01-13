@@ -34,7 +34,7 @@ export class User extends Entity<UserProps> {
     super(props, id);
   }
 
-  static create(props: Omit<UserProps, "status"> & { status?: UserStatus }, _id?: string): User {
+  static create(props: Omit<UserProps, "status"> & { status?: UserStatus }, id?: string): User {
     if (!props.name.trim()) {
       throw new Error("User name is required");
     }
@@ -43,11 +43,14 @@ export class User extends Entity<UserProps> {
       throw new Error("User name must be at least 3 characters");
     }
 
-    return new User({
-      ...props,
-      name: props.name.trim(),
-      status: props.status ?? UserStatus.ACTIVE,
-    });
+    return new User(
+      {
+        ...props,
+        name: props.name.trim(),
+        status: props.status ?? UserStatus.ACTIVE,
+      },
+      id,
+    );
   }
 
   get name(): string {
