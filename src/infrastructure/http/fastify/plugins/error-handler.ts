@@ -17,7 +17,14 @@ export async function errorHandle(app: FastifyInstance) {
       });
     }
 
-    console.error(error);
+    if (process.env.NODE_ENV === "development") {
+      console.error(error);
+    } else {
+      console.error("Internal server error:", {
+        message: error.message,
+        name: error.name,
+      });
+    }
 
     return reply.status(500).send({
       message: "Erro interno do servidor",

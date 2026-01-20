@@ -34,7 +34,6 @@ async function createUser() {
     });
     console.log("✅ Usuário criado com sucesso!");
     console.log(`   Username: ${userToCreate.username}`);
-    console.log(`   Password: ${userToCreate.password}`);
     console.log(`   Role: ${userToCreate.role}`);
   } catch (error) {
     console.error("❌ Erro ao criar usuário:", error);

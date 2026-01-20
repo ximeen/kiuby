@@ -1,5 +1,6 @@
 import { ValueObject } from "@domain/shared/value_object";
 import bcrypt from "bcrypt";
+import { PasswordValidator } from "@shared/utils/password-validator";
 
 export class Password extends ValueObject<{ hash: string }> {
   private constructor(hash: string) {
@@ -10,12 +11,8 @@ export class Password extends ValueObject<{ hash: string }> {
     if (!plainPassword) {
       throw new Error("Password cannot be empty");
     }
-    if (plainPassword.length < 3) {
-      throw new Error("Password must be at least 6 characters");
-    }
-    if (plainPassword.length > 100) {
-      throw new Error("Password cannot exceed 100 characters");
-    }
+
+    PasswordValidator.validateAndThrow(plainPassword);
 
     const hash = await bcrypt.hash(plainPassword, 10);
     return new Password(hash);

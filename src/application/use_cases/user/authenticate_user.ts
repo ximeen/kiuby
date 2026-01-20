@@ -33,10 +33,8 @@ export class AuthenticateUserUseCase {
   ) {}
 
   async execute(input: AuthenticateInput): Promise<AuthenticateOutput> {
-    console.log("🔍 Buscando user:", input.username);
     const user = await this.userRepo.findByUsername(input.username);
 
-    console.log("👤 User encontrado:", user?.id, user?.username.value);
     if (!user) {
       throw new UnauthorizedError("Invalid credentials");
     }

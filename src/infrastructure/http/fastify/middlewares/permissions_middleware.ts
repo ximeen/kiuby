@@ -13,7 +13,7 @@ export function requiredPermission(
   options: PermissionOptions = {},
 ) {
   const { strategy = "some" } = options;
-  if (!requiredPermission.length) {
+  if (!requiredPermissions.length) {
     throw new Error("At least one permission must be specified");
   }
 

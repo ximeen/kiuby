@@ -21,5 +21,6 @@ export const AuthenticateOutputSchema: z.ZodType<AuthenticateOutput> = z.object(
 
 export const RefreshTokenOutputSchema: z.ZodType<RefreshTokenOutput> = z.object({
   accessToken: z.string(),
+  refreshToken: z.string(),
   expireIn: z.number(),
 });

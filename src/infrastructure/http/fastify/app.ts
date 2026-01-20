@@ -1,5 +1,6 @@
 import { fastifyCors } from "@fastify/cors";
 import helmet from "@fastify/helmet";
+import fastifyRateLimit from "@fastify/rate-limit";
 import { fastifySwagger } from "@fastify/swagger";
 import ScalarApiReference from "@scalar/fastify-api-reference";
 import fastify from "fastify";
@@ -10,6 +11,7 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import z from "zod";
+import { env } from "@shared/utils/env";
 import { errorHandle } from "./plugins/error-handler";
 import { customerRoutes } from "./routes/customer_routes";
 import { productRoutes } from "./routes/product_routes";
@@ -24,9 +26,33 @@ export async function buildApp() {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
+  const corsOrigins = env.CORS_ORIGIN
+    ? env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
+    : env.NODE_ENV === "production"
+      ? []
+      : true; 
+
   await app.register(fastifyCors, {
-    origin: true,
+    origin: corsOrigins,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    credentials: true,
+  });
+
+  await app.register(fastifyRateLimit, {
+    max: 100, 
+    timeWindow: "1 minute", 
+    skipOnError: false,
+    addHeadersOnExceeding: {
+      "x-ratelimit-limit": true,
+      "x-ratelimit-remaining": true,
+      "x-ratelimit-reset": true,
+    },
+    addHeaders: {
+      "x-ratelimit-limit": true,
+      "x-ratelimit-remaining": true,
+      "x-ratelimit-reset": true,
+      "retry-after": true,
+    },
   });
   await app.register(fastifySwagger, {
     openapi: {
@@ -47,8 +73,15 @@ export async function buildApp() {
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", "'wasm-unsafe-eval'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: [
+          "'self'",
+          ...(env.NODE_ENV === "development" ? ["'unsafe-inline'"] : []),
+          "'wasm-unsafe-eval'", 
+        ],
+        styleSrc: [
+          "'self'",
+          ...(env.NODE_ENV === "development" ? ["'unsafe-inline'"] : []),
+        ],
         imgSrc: ["'self'", "data:", "https:"],
         fontSrc: ["'self'", "data:", "https:"],
         connectSrc: ["'self'"],

@@ -17,7 +17,7 @@ export const createUserSchema = object({
   name: string().min(3),
   username: string().min(3),
   email: email(),
-  password: string(),
+  password: string().min(8),
   role: enum_(["admin", "manager", "salesperson", "stock_manager", "viewer"]),
   phone: string().optional(),
 });
@@ -117,6 +117,6 @@ export class UserController {
 
     const useCase = new ActivateUserUseCase(getUserRepository());
     await useCase.execute(id);
-    return reply.send(HTTP_STATUS.NO_CONTENT).send();
+    return reply.status(HTTP_STATUS.NO_CONTENT).send();
   }
 }

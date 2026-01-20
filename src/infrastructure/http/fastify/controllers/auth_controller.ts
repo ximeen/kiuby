@@ -9,8 +9,8 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import z from "zod";
 
 export const loginSchema = z.object({
-  username: z.string(),
-  password: z.string(),
+  username: z.string().min(1),
+  password: z.string().min(1),
 });
 
 export const refreshSchema = z.object({
@@ -41,7 +41,11 @@ export class AuthController {
 
     const useCase = new RefreshTokenUseCase(getRefreshTokenRepository(), getUserRepository());
 
-    const result = await useCase.execute(data);
+    const result = await useCase.execute({
+      ...data,
+      deviceInfo: request.headers["user-agent"],
+      ipAddress: request.ip,
+    });
     return reply.status(200).send(result);
   }
 
