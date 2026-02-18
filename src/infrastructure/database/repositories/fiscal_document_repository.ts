@@ -25,7 +25,7 @@ import { Money } from "@domain/entities/product/value_objects/money";
 import type { PaymentMethod } from "@domain/entities/sale/sale_entity";
 import { Discount, DiscountType } from "@domain/entities/sale/value_objects/discount";
 import { Quantity } from "@domain/entities/stock/value_objects/quantity";
-import { and, eq, gte, lte, type SQL } from "drizzle-orm";
+import { and, eq, gte, lte } from "drizzle-orm";
 import { db } from "../drizzle/client";
 import { fiscalDocumentItems, fiscalDocuments } from "../drizzle/schema";
 
@@ -372,7 +372,7 @@ export class DrizzleFiscalDocumentRepository implements IFiscalDocumentRepositor
         Money.create(parseFloat(itemRow.icmsBase || "0")),
         parseFloat(itemRow.icmsRate || "0"),
         itemRow.icmsCst as IcmsCst,
-        parseInt(itemRow.icmsOrigin || "0") as IcmsOrigin,
+        parseInt(itemRow.icmsOrigin || "0", 10) as IcmsOrigin,
       );
 
       const pis = TaxImpost.createPis(
@@ -405,7 +405,7 @@ export class DrizzleFiscalDocumentRepository implements IFiscalDocumentRepositor
           cofins,
           ipi,
           icmsCst: itemRow.icmsCst as IcmsCst,
-          icmsOrigin: parseInt(itemRow.icmsOrigin || "0") as IcmsOrigin,
+          icmsOrigin: parseInt(itemRow.icmsOrigin || "0", 10) as IcmsOrigin,
           pisCst: itemRow.pisCst as PisCst,
           cofinsCst: itemRow.cofinsCst as CofinsCst,
           ipiCst: itemRow.ipiCst as IpiCst,

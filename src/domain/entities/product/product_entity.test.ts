@@ -16,7 +16,7 @@ const createMockMoney = (amount: number, currency = "BRL"): Money =>
   }) as Money;
 
 describe("Product", () => {
-  let validProps: any;
+  let validProps: Parameters<typeof Product.create>[0];
 
   beforeEach(() => {
     validProps = {

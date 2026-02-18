@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/complexity/useOptionalChain: <explanation> */
 import type { IStockRepository } from "@domain/entities/stock/stock_repository";
 import { Quantity } from "@domain/entities/stock/value_objects/quantity";
 
@@ -36,7 +35,7 @@ export class CheckStockAvailabilityUseCase {
     let totalReserved = 0;
 
     const stockDetails = stocks
-      .filter((s): s is NonNullable<typeof s> => s !== null && s.isActive())
+      .filter((s): s is NonNullable<typeof s> => !!s?.isActive())
       .map((stock) => {
         const qty = stock.quantity.value;
         const available = stock.getAvailableQuantity().value;

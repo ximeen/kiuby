@@ -1,5 +1,5 @@
 import { ValueObject } from "@domain/shared/value_object";
-import { PasswordValidator } from "@shared/utils/password-validator";
+import { validatePasswordAndThrow } from "@shared/utils/password-validator";
 import bcrypt from "bcrypt";
 
 export class Password extends ValueObject<{ hash: string }> {
@@ -12,7 +12,7 @@ export class Password extends ValueObject<{ hash: string }> {
       throw new Error("Password cannot be empty");
     }
 
-    PasswordValidator.validateAndThrow(plainPassword);
+    validatePasswordAndThrow(plainPassword);
 
     const hash = await bcrypt.hash(plainPassword, 10);
     return new Password(hash);

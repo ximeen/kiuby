@@ -6,7 +6,7 @@ import type {
 import { Money } from "@domain/entities/product/value_objects/money";
 import { ProductName } from "@domain/entities/product/value_objects/product_name";
 import { SKU } from "@domain/entities/product/value_objects/sku";
-import { and, eq, gte, ilike, lte, or, sql } from "drizzle-orm";
+import { and, eq, gte, ilike, lte, or } from "drizzle-orm";
 import { db } from "../drizzle/client";
 import { products } from "../drizzle/schema";
 

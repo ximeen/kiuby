@@ -7,7 +7,7 @@ export function requireRole(allowedRoles: UserRole[]) {
     throw new Error("At least one role must be specified");
   }
 
-  return async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
+  return async (request: FastifyRequest, _reply: FastifyReply): Promise<void> => {
     const user = request.user;
     if (!user) {
       throw new UnauthorizedError("Authentication required");

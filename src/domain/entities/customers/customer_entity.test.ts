@@ -16,8 +16,8 @@ const createMockDocument = (value: string, type: "CPF" | "CNPJ"): Document =>
   }) as Document;
 
 describe("Customer", () => {
-  let validIndividualProps: any;
-  let validCompanyProps: any;
+  let validIndividualProps: Parameters<typeof Customer.create>[0];
+  let validCompanyProps: Parameters<typeof Customer.create>[0];
 
   beforeEach(() => {
     validIndividualProps = {

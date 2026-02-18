@@ -30,7 +30,7 @@ export class GetCustomerByDocumentUseCase {
       phone: customer.phone?.value,
       type: customer.type,
       status: customer.status,
-      document: customer.document!.value,
+      document: customer.document?.value,
       currentDebt: customer.currentDebt,
       availableCredit: customer.getAvailableCredit(),
     };

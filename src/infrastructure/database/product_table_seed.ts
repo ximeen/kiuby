@@ -95,10 +95,10 @@ export const productsSeeds = [
 
 // Função para gerar produtos aleatórios (opcional)
 export const generateRandomProducts = (count: number = 50) => {
-  const categories = ["Eletrônicos", "Periféricos", "Acessórios", "Componentes"];
+  const _categories = ["Eletrônicos", "Periféricos", "Acessórios", "Componentes"];
   const units = ["UN", "CX", "KG", "MT"];
 
-  return Array.from({ length: count }, (_, i) => {
+  return Array.from({ length: count }, (_, _i) => {
     const price = faker.number.float({ min: 10, max: 5000, precision: 0.01 });
     const costPrice = price * faker.number.float({ min: 0.5, max: 0.8, precision: 0.01 });
 
