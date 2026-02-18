@@ -21,7 +21,7 @@ import {
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { array, enum as enum_, number, object, string, uuid } from "zod";
 
-const createSaleItemSchema = object({
+export const createSaleItemSchema = object({
   productId: uuid(),
   quantity: number().positive(),
   unitPrice: number().positive().optional(),
@@ -29,7 +29,7 @@ const createSaleItemSchema = object({
   discountValue: number().min(0).optional(),
 });
 
-const createSaleSchema = object({
+export const createSaleSchema = object({
   customerId: uuid(),
   items: array(createSaleItemSchema).min(1),
   paymentMethod: enum_([
@@ -46,25 +46,25 @@ const createSaleSchema = object({
   saleDiscountValue: number().min(0).optional(),
 });
 
-const approveSaleSchema = object({
+export const approveSaleSchema = object({
   userId: uuid(),
   warehouseId: uuid(),
 });
 
-const rejectSaleSchema = object({
+export const rejectSaleSchema = object({
   userId: uuid(),
   reason: string().min(1),
 });
 
-const completeSaleSchema = object({
+export const completeSaleSchema = object({
   warehouseId: uuid(),
 });
 
-const cancelSaleSchema = object({
+export const cancelSaleSchema = object({
   warehouseId: uuid().optional(),
 });
 
-const addItemSchema = object({
+export const addItemSchema = object({
   productId: uuid(),
   quantity: number().positive(),
   unitPrice: number().positive().optional(),

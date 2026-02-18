@@ -7,7 +7,7 @@ import { getStockMovementRepository, getStockRepository } from "@shared/containe
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { enum as enum_, number, object, string, uuid } from "zod";
 
-const addStockSchema = object({
+export const addStockSchema = object({
   productId: uuid(),
   warehouseId: uuid(),
   quantity: number().positive(),
@@ -18,7 +18,7 @@ const addStockSchema = object({
   referenceType: string().optional(),
 });
 
-const removeStockSchema = object({
+export const removeStockSchema = object({
   productId: uuid(),
   warehouseId: uuid(),
   quantity: number().positive(),
