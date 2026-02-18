@@ -1,3 +1,4 @@
+import type { StockMovement } from "@domain/entities/stock/stock_movement.entity";
 import type {
   IStockMovementRepository,
   MovementFilters,
@@ -41,13 +42,11 @@ export class GetStockMovementsUseCase {
       userId: input.userId,
     };
 
-    let movements;
+    let movements: StockMovement[];
 
     if (input.stockId) {
       movements = await this.movementRepo.findByStock(input.stockId, filters);
-    }
-
-    if (input.productId) {
+    } else if (input.productId) {
       movements = await this.movementRepo.findByProduct(input.productId, filters);
     } else {
       throw new Error("Either productId or stockId must be provider");

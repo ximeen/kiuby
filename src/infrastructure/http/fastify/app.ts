@@ -3,6 +3,7 @@ import helmet from "@fastify/helmet";
 import fastifyRateLimit from "@fastify/rate-limit";
 import { fastifySwagger } from "@fastify/swagger";
 import ScalarApiReference from "@scalar/fastify-api-reference";
+import { env } from "@shared/utils/env";
 import fastify from "fastify";
 import {
   jsonSchemaTransform,
@@ -11,7 +12,6 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import z from "zod";
-import { env } from "@shared/utils/env";
 import { errorHandle } from "./plugins/error-handler";
 import { customerRoutes } from "./routes/customer_routes";
 import { productRoutes } from "./routes/product_routes";
@@ -30,7 +30,7 @@ export async function buildApp() {
     ? env.CORS_ORIGIN.split(",").map((origin) => origin.trim())
     : env.NODE_ENV === "production"
       ? []
-      : true; 
+      : true;
 
   await app.register(fastifyCors, {
     origin: corsOrigins,
@@ -39,8 +39,8 @@ export async function buildApp() {
   });
 
   await app.register(fastifyRateLimit, {
-    max: 100, 
-    timeWindow: "1 minute", 
+    max: 100,
+    timeWindow: "1 minute",
     skipOnError: false,
     addHeadersOnExceeding: {
       "x-ratelimit-limit": true,
@@ -76,12 +76,9 @@ export async function buildApp() {
         scriptSrc: [
           "'self'",
           ...(env.NODE_ENV === "development" ? ["'unsafe-inline'"] : []),
-          "'wasm-unsafe-eval'", 
+          "'wasm-unsafe-eval'",
         ],
-        styleSrc: [
-          "'self'",
-          ...(env.NODE_ENV === "development" ? ["'unsafe-inline'"] : []),
-        ],
+        styleSrc: ["'self'", ...(env.NODE_ENV === "development" ? ["'unsafe-inline'"] : [])],
         imgSrc: ["'self'", "data:", "https:"],
         fontSrc: ["'self'", "data:", "https:"],
         connectSrc: ["'self'"],

@@ -1,6 +1,6 @@
 import { ValueObject } from "@domain/shared/value_object";
-import bcrypt from "bcrypt";
 import { PasswordValidator } from "@shared/utils/password-validator";
+import bcrypt from "bcrypt";
 
 export class Password extends ValueObject<{ hash: string }> {
   private constructor(hash: string) {

@@ -1,4 +1,5 @@
 export { DrizzleCustomerRepository } from "./customer_repository";
+export { DrizzleFiscalDocumentRepository } from "./fiscal_document_repository";
 export { DrizzleProductRepository } from "./product_repository";
 export { DrizzleSaleRepository } from "./sale_repository";
 export { DrizzleStockMovementRepository } from "./stock_movement_repository";

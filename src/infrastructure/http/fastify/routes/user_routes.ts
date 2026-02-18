@@ -1,4 +1,5 @@
 import { Permission } from "@domain/entities/user/permissions";
+import fastifyRateLimit from "@fastify/rate-limit";
 import {
   AuthenticateOutputSchema,
   RefreshTokenOutputSchema,
@@ -11,7 +12,6 @@ import {
   QueryParamsListUserZodSchema,
 } from "@shared/validators/zod/user_validators";
 import type { FastifyInstance } from "fastify";
-import fastifyRateLimit from "@fastify/rate-limit";
 import {
   AuthController,
   loginSchema,
@@ -33,8 +33,8 @@ export async function userRoutes(app: FastifyInstance) {
   const auth = new AuthController();
 
   await app.register(fastifyRateLimit, {
-    max: 5, 
-    timeWindow: "15 minutes", 
+    max: 5,
+    timeWindow: "15 minutes",
     prefix: "/auth",
     skipOnError: false,
     addHeadersOnExceeding: {

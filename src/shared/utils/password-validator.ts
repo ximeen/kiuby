@@ -33,7 +33,7 @@ export class PasswordValidator {
   }
 
   static validateAndThrow(password: string): void {
-    const result = this.validate(password);
+    const result = PasswordValidator.validate(password);
     if (!result.valid) {
       throw new Error(result.errors.join("; "));
     }

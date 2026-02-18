@@ -1,5 +1,6 @@
 import {
   DrizzleCustomerRepository,
+  DrizzleFiscalDocumentRepository,
   DrizzleProductRepository,
   DrizzleSaleRepository,
   DrizzleStockMovementRepository,
@@ -17,6 +18,7 @@ let stockRepository: DrizzleStockRepository;
 let stockMovementRepository: DrizzleStockMovementRepository;
 let saleRepository: DrizzleSaleRepository;
 let refreshTokenRepository: DrizzleRefreshTokenRepository;
+let fiscalDocumentRepository: DrizzleFiscalDocumentRepository;
 
 export function getProductsRepository(): DrizzleProductRepository {
   if (!productRepository) {
@@ -73,4 +75,11 @@ export function getRefreshTokenRepository(): DrizzleRefreshTokenRepository {
   }
 
   return refreshTokenRepository;
+}
+
+export function getFiscalDocumentRepository(): DrizzleFiscalDocumentRepository {
+  if (!fiscalDocumentRepository) {
+    fiscalDocumentRepository = new DrizzleFiscalDocumentRepository();
+  }
+  return fiscalDocumentRepository;
 }

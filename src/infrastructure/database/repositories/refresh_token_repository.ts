@@ -1,8 +1,8 @@
 import { RefreshToken } from "@domain/entities/auth/refresh_token_entity";
 import type { IRefreshTokenRepository } from "@domain/entities/auth/refresh_token_repository";
+import { eq, lt } from "drizzle-orm";
 import { db } from "../drizzle/client";
 import { refreshTokens } from "../drizzle/schema";
-import { eq, lt } from "drizzle-orm";
 
 export class DrizzleRefreshTokenRepository implements IRefreshTokenRepository {
   async save(refreshToken: RefreshToken): Promise<void> {
